@@ -1,17 +1,18 @@
 import cors from "cors";
+
 const allowedOrigins = [
-  'http://localhost:3000',
+  '*', // Allow all origins
 ];
 
-const corsOptions ={
+const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin like mobile apps or curl requests
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+    if (allowedOrigins.indexOf('*') !== -1) {
+      return callback(null, true); // Allow all origins
     }
-    return callback(null, true);
+    const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+    return callback(new Error(msg), false);
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
   credentials: true // Allow credentials (cookies, authorization headers, etc.)
